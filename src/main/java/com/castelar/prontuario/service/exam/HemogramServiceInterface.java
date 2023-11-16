@@ -1,6 +1,6 @@
-package com.castelar.prontuario.service;
+package com.castelar.prontuario.service.exam;
 
-import com.castelar.prontuario.dto.HemogramDTO;
+import com.castelar.prontuario.dto.exam.HemogramDTO;
 
 public interface HemogramServiceInterface {
     public void create(HemogramDTO hemogram);

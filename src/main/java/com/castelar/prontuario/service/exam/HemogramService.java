@@ -1,19 +1,18 @@
-package com.castelar.prontuario.service;
+package com.castelar.prontuario.service.exam;
 
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.castelar.prontuario.dto.HemogramDTO;
-import com.castelar.prontuario.model.examType.Hemogram;
-import com.castelar.prontuario.repository.HemogramRepository;
+import com.castelar.prontuario.dto.exam.HemogramDTO;
+import com.castelar.prontuario.model.exam.Hemogram;
+import com.castelar.prontuario.repository.exam.HemogramRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class HemogramService implements HemogramServiceInterface{
-    private HemogramRepository hemogramRepository; 
-
-    public HemogramService(HemogramRepository hemogramRepository){
-        this.hemogramRepository = hemogramRepository;
-    }
+    private final HemogramRepository hemogramRepository; 
 
     @Override
     public void create(HemogramDTO hemogram) {

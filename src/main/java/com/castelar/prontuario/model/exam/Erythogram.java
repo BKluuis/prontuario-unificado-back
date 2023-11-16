@@ -1,4 +1,4 @@
-package com.castelar.prontuario.model.examType;
+package com.castelar.prontuario.model.exam;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Erythogram {
    @Id
    @GeneratedValue
-   private long id;
+   private Long id;
 
    //Contagem de hemácias
    private int redCells;

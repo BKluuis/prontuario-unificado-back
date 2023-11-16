@@ -1,4 +1,4 @@
-package com.castelar.prontuario.dto;
+package com.castelar.prontuario.dto.exam;
 
 // import com.castelar.prontuario.model.examType.Erythogram;
 // import com.castelar.prontuario.model.examType.Leukogram;

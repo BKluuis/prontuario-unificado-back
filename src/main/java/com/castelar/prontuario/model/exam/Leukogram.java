@@ -1,4 +1,4 @@
-package com.castelar.prontuario.model.examType;
+package com.castelar.prontuario.model.exam;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Leukogram {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private int leukocyte;
     private int neutrophils;
