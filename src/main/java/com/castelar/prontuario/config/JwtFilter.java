@@ -30,9 +30,9 @@ public class JwtFilter extends OncePerRequestFilter{
             if(splitAuth.length == 2 && "Bearer".equals(splitAuth[0])){
                 try {
                     if(request.getMethod().equals("GET")){
-                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateToken(splitAuth[2]));
+                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateToken(splitAuth[1]));
                     } else {
-                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateTokenStrongly(splitAuth[2]));
+                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateTokenStrongly(splitAuth[1]));
                     }
                 } catch (RuntimeException e) {
                     SecurityContextHolder.clearContext();
