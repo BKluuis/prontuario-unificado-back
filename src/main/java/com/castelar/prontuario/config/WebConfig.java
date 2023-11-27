@@ -2,19 +2,32 @@ package com.castelar.prontuario.config;
 
 import java.util.Arrays;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.castelar.prontuario.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class WebConfig {
+    private final UserRepository userRepository;
+
+    /**
+     * Bean de configuração do CORS (Cross-origin Resource sharing ou Compartilhamento de recursos com origens diferentes)
+     * Permite o acesso sobre esta API para o frontend (vide prontuario-unificado-front de @IagoGMacedo)
+     * @return Filtro CORS configurado
+     */
     @Bean
     public CorsFilter corsFilter(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -35,8 +48,18 @@ public class WebConfig {
             HttpMethod.DELETE.name()
         ));
         config.setMaxAge(3600L);
+
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
+    }
+
+    /**
+     * 
+     * @return
+     */
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return username -> userRepository.findByLogin(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

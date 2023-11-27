@@ -19,11 +19,11 @@ public class Thrombogram {
     private Long id;
 
     //Contagem de plaquetas
-    private int platelet;
+    private Integer platelet;
     //volume total de plaquetas num determinado volume de sangue
-    private int platelocryt;
+    private Integer platelocryt;
     //Amplitude de variação do tamanho das plaquetas
-    private int pdw;
+    private Integer pdw;
     //volume plaquetário médio
-    private int vmp;
+    private Integer vmp;
 }

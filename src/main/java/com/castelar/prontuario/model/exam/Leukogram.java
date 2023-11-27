@@ -18,15 +18,15 @@ public class Leukogram {
     @GeneratedValue
     private Long id;
 
-    private int leukocyte;
-    private int neutrophils;
-    private int mielocitos;
-    private int metamielocitos;
-    private int bastonetes;
-    private int segmentados;
-    private int eosinophils;
-    private int basophils;
-    private int monocytes;
-    private int lym_tipic;
-    private int lym_atipic;
+    private Integer leukocyte;
+    private Integer neutrophils;
+    private Integer myelocytes;
+    private Integer metamyelocytes;
+    private Integer band_neutrophils;
+    private Integer segmented_neutrophils;
+    private Integer eosinophils;
+    private Integer basophils;
+    private Integer monocytes;
+    private Integer lym_tipic;
+    private Integer lym_atipic;
 }

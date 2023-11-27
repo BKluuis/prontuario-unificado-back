@@ -1,4 +1,4 @@
-package com.castelar.prontuario.dto;
+package com.castelar.prontuario.dto.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

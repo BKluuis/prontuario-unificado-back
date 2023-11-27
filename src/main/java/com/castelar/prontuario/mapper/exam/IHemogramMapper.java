@@ -6,6 +6,8 @@ import com.castelar.prontuario.dto.exam.HemogramDTO;
 import com.castelar.prontuario.model.exam.Hemogram;
 
 @Mapper(componentModel = "spring")
-public interface HemogramMapper {    
+public interface IHemogramMapper {    
     HemogramDTO toDTO(Hemogram hemogram);
+
+    Hemogram fromDTO(HemogramDTO dto);
 }

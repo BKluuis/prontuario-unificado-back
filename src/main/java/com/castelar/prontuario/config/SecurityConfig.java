@@ -13,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import com.castelar.prontuario.model.Role;
+
 @RequiredArgsConstructor
 @Configuration
 @EnableWebMvc
@@ -20,13 +22,19 @@ public class SecurityConfig {
 
     private final UserAuthProvider userAuthProvider;
 
+    /**
+     * Bean necessário para realizar o request matching em MVC
+     * @param introspector
+     * @return
+     */
     @Bean
     public MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector){
         return new MvcRequestMatcher.Builder(introspector);
     }
 
     /**
-     * 
+     * Adiciona o filtro JWT e especifica quais endpoints estão liberados para usuários não-autenticados (/login e /register)
+     * Bloqueia todos os outros endpoints para apenas usuários autenticados
      * @param http
      * @return
      * @throws Exception
@@ -36,7 +44,9 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
             .addFilterBefore(new JwtFilter(userAuthProvider), BasicAuthenticationFilter.class) //Adiciona o filtro JWT antes do filtro de autenticação básico
             .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/login"), mvc.pattern("/register")).permitAll()
+            .authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/login"), mvc.pattern("/register"), mvc.pattern("/h2-console/**"))
+            .permitAll()
+            .requestMatchers(mvc.pattern("api/hemogram**")).hasRole(Role.PROFESSIONAL.name())
             .anyRequest().authenticated()
         );
         return http.build();

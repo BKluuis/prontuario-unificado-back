@@ -1,5 +1,6 @@
 package com.castelar.prontuario.model.exam;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,13 +19,13 @@ public class Hemogram {
     @GeneratedValue
     private Long id;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     // @Embedded
-    private Erythogram eritograma;
-    @OneToOne
+    private Erythogram erythogram;
+    @OneToOne(cascade = CascadeType.ALL)
     // @Embedded
-    private Leukogram leucograma;
-    @OneToOne
+    private Leukogram leukogram;
+    @OneToOne(cascade = CascadeType.ALL)
     // @Embedded
-    private Thrombogram plaquetograma;
+    private Thrombogram thrombogram;
 }

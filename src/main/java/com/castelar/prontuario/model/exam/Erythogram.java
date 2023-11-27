@@ -12,24 +12,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-// @Embeddable
-public class Erythogram {
+public class Erythogram{
    @Id
    @GeneratedValue
    private Long id;
 
-   //Contagem de hemácias
-   private int redCells;
-   //
-   private int hemoglobin; 
-   //
-   private int hematocrit;
-   //
-   private int VCM;
-   //
-   private int HCM;
-   //
-   private int CHCM;
-   //
-   private int RDW;
+   // Representa a contagem de hemácias (também conhecidas como eritrócitos ou glóbulos vermelhos).
+   private Integer redCells;
+   // A hemoglobina é uma proteina que fica dentro da hemácia
+   private Integer hemoglobin; 
+   // Porcetagem de hemácias no sangue
+   private Integer hematocrit;
+   // Volume Corpuscular Médio (VCM), um índice hematimétrico presente no hemograma que indica a média do tamanho das hemácias
+   private Integer VCM;
+   // HCM (hemoglobina corpuscular média) é o peso da hemoglobina dentro das hemácias
+   private Integer HCM;
+   // Concentração da Hemoglobina Corpuscular Média (CHCM), um índice que serve para verificar a quantidade de hemoglobina presente nas hemácias
+   private Integer CHCM;
+   // Red Cell Distribution Width (RDW), um parâmetro que avalia a variação de tamanho entre as hemácias
+   private Integer RDW;
 }
