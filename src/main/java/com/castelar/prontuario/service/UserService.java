@@ -11,19 +11,18 @@ import org.springframework.stereotype.Service;
 
 import com.castelar.prontuario.dto.authentication.CredentialDTO;
 import com.castelar.prontuario.dto.authentication.SignUpDTO;
-import com.castelar.prontuario.dto.authentication.UserDTO;
 import com.castelar.prontuario.exception.AppException;
 import com.castelar.prontuario.mapper.IUserMapper;
 import com.castelar.prontuario.model.Role;
 import com.castelar.prontuario.model.User;
-import com.castelar.prontuario.repository.UserRepository;
+import com.castelar.prontuario.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final IUserMapper userMapper;
 
@@ -43,7 +42,7 @@ public class UserService {
     }
 
     /**
-     * Realiza o cadastro do usuário, pesquisa no banco de dados se o login fornecido existe, se existe 
+     * Realiza o cadastro do usuário, caso o login fornecido já não exista, salva um novo usuário com permissões de PATIENT
      * @param signUpDTO Informações de cadastro necessárias para criar um novo usuário
      * @return User do usuário criado
      */
@@ -58,7 +57,8 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signUpDTO.password())));
         user.setRole(Role.PATIENT);
         User savedUser = userRepository.save(user);
-        // return userMapper.toDTO(user);
+
+
         return savedUser;
     }
 
@@ -66,7 +66,7 @@ public class UserService {
      * TODO: Forçar logout no usuário, o objeto Authentication no SecurityContextHolder não é atualizado após a atualização do usuário
      * @param login
      * @param newRole
-     * @return
+     * @return 
      */
     public User updatePermissions(String login, Role newRole){
         User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));

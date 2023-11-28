@@ -1,10 +1,8 @@
 package com.castelar.prontuario.config;
 
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,10 +15,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.castelar.prontuario.mapper.IUserMapper;
 import com.castelar.prontuario.model.Role;
 import com.castelar.prontuario.model.User;
-import com.castelar.prontuario.repository.UserRepository;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class UserAuthProvider {
 
     private final UserDetailsService userDetailsService;
-    private final UserRepository userRepository;
-    private final IUserMapper userMapper;
 
     /** Obtém a chave secreta como propriedade do arquivo application.properties, "secret-key" é o valor padrão */
     @Value("${security.jwt.token.secret-key:secret-key}")
@@ -77,6 +71,7 @@ public class UserAuthProvider {
 
     /**
      * Valida o token JWS e gera um objeto de autenticação do Spring com as informações do usuário
+     * Este método é chamado quando é feita uma requisição do tipo "GET"
      * @param token Token JWS incluso na requisição
      * @return Autenticação do usuário
      */
@@ -91,19 +86,14 @@ public class UserAuthProvider {
                     .lastName(decoded.getClaim("lastName").asString())
                     .role(decoded.getClaim("role").as(Role.class))
                     .build();
-        // UserDTO user = UserDTO.builder()
-        //     .login(decoded.getIssuer())
-        //     .firstName(decoded.getClaim("firstName").asString())
-        //     .lastName(decoded.getClaim("lastName").asString())
-        //     .build();
 
         System.out.println("Token validado, usuário: " + userDetails);
-        // return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
     /**
      * Valida o token JWS, garante que o usuário existe no banco de dados e gera um objeto de autenticação do Spring com as informações do usuário
+     * Este método é chamado quando é feita uma requisição do tipo "POST"
      * @param token Token JWS incluso na requisição
      * @return Autenticação do usuário
      */
@@ -114,10 +104,6 @@ public class UserAuthProvider {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(decoded.getIssuer());
 
-        // User user = userRepository.findByLogin(decoded.getIssuer())
-        //     .orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
-
-        // return new UsernamePasswordAuthenticationToken(userMapper.toDTO(user), null, Collections.emptyList());
         System.out.println("Usuário encontrado e token validado, usuário: " + userDetails);
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }

@@ -13,7 +13,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.castelar.prontuario.repository.UserRepository;
+import com.castelar.prontuario.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebMvc
 @RequiredArgsConstructor
 public class WebConfig {
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
 
     /**
      * Bean de configuração do CORS (Cross-origin Resource sharing ou Compartilhamento de recursos com origens diferentes)

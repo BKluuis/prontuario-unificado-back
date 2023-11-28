@@ -1,5 +1,5 @@
 package com.castelar.prontuario.dto.exam;
 
-public record ErythogramDTO(int redCells, int hemoglobin, int hematocrit, int VCM, int HCM, int CHCM, int RDW) {
+public record ErythogramDTO(Integer redCells, Integer hemoglobin, Integer hematocrit, Integer VCM, Integer HCM, Integer CHCM, Integer RDW) {
     
 }

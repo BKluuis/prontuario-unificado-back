@@ -29,7 +29,7 @@ public class HemogramController {
         return new ResponseEntity<Hemogram>(createdHemogram, HttpStatus.CREATED);
     }
     /**
-     * Apenas o usuário dono do hemograma e um profissional com ligação ao usuário pode requisitar um hemograma
+     * Apenas o usuário dono do hemograma ou um profissional com ligação ao usuário pode requisitar um hemograma
      * @return
      */
     @GetMapping    

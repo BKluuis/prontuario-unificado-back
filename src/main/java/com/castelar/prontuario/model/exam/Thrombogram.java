@@ -1,6 +1,5 @@
 package com.castelar.prontuario.model.exam;
 
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-// @Embeddable
 public class Thrombogram {
     @Id
     @GeneratedValue
