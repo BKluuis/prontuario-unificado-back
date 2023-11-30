@@ -35,7 +35,6 @@ public class UserService {
         User user = userRepository.findByLogin(credentialDTO.login()).orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
         
         if(passwordEncoder.matches(CharBuffer.wrap(credentialDTO.password()), user.getPassword())){
-            // return userMapper.toDTO(user);
             return user;
         }
         throw new AppException("Unknown user", HttpStatus.BAD_REQUEST);
@@ -57,7 +56,6 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signUpDTO.password())));
         user.setRole(Role.PATIENT);
         User savedUser = userRepository.save(user);
-
 
         return savedUser;
     }
