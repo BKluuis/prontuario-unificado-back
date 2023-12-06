@@ -3,7 +3,6 @@ package com.castelar.prontuario.config;
 import java.util.Base64;
 import java.util.Date;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

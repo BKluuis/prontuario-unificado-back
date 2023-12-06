@@ -1,9 +1,6 @@
 package com.castelar.prontuario.service.exam;
 
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.castelar.prontuario.model.User;
@@ -28,12 +25,9 @@ public class HemogramService implements IHemogramService {
      */
     @Override
     public Hemogram addHemogramToUser(String login, Hemogram hemogram) {
-        User loggedUser = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User loggedUser = userRepository.findByLogin(login).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
-        if(hemogram.getId() != null ) {
-            hemogram.setId(null);
-        }
-
+        hemogram.setId(null);
         hemogram.setOwner(loggedUser);
         Hemogram savedHemogram = hemogramRepository.save(hemogram);
 
@@ -56,14 +50,13 @@ public class HemogramService implements IHemogramService {
     public Hemogram findById(Long id) {
         Hemogram hemogram = hemogramRepository.findById(id)
                                               .orElseThrow(() -> new AppException("No hemogram found with the supplied ID", HttpStatus.NOT_FOUND));
-
         return hemogram;
     }
 
 
     @Override
     public Hemogram findByIdAndUser(String login, Long id) {
-        User loggedUser = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User loggedUser = userRepository.findByLogin(login).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
         Hemogram foundHemogram = hemogramRepository.findByOwner(loggedUser)
                         .orElseThrow(() -> new AppException("The hemogram with the given ID doesn't exists or is not associated with this user", HttpStatus.NOT_FOUND));

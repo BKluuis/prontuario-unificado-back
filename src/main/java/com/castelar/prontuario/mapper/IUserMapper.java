@@ -10,8 +10,14 @@ import com.castelar.prontuario.model.User;
 @Mapper(componentModel = "spring")
 public interface IUserMapper {
     UserDTO toDTO(User user);
+    
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "password", ignore = true)
     User fromDTO(UserDTO userDTO);
     
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "token", ignore = true)
     @Mapping(target = "password", ignore = true)
     User fromSignUpDTO(SignUpDTO signUpDTO);
 
