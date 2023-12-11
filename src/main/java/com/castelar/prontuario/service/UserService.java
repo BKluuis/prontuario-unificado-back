@@ -1,6 +1,7 @@
 package com.castelar.prontuario.service;
 
 import java.nio.CharBuffer;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -76,5 +77,9 @@ public class UserService {
 
     public User getLoggedUser(){
         return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+    public List<User> getUsers(){
+    List<User> users = userRepository.findAll();
+    return users;
     }
 }

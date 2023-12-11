@@ -25,11 +25,11 @@ public class HemogramController {
     private final IHemogramMapper hemogramMapper;
 
     @PostMapping
-    public ResponseEntity<HemogramDTO> postHemogram(@RequestBody HemogramDTO hemogram, @AuthenticationPrincipal User user){
+    public ResponseEntity<HemogramDTO> postHemogram(@RequestParam String patientLogin,@RequestBody HemogramDTO hemogram, @AuthenticationPrincipal User user){
         System.out.println("Este usuário requisitou a inclusão de um hemograma " + user);
 
         HemogramDTO createdHemogram = hemogramMapper.toDTO(
-                                        hemogramService.addHemogramToUser(user.getLogin() ,hemogramMapper.fromDTO(hemogram))
+                                        hemogramService.addHemogramToUser(patientLogin,user.getLogin() ,hemogramMapper.fromDTO(hemogram))
                                     );
 
         return new ResponseEntity<HemogramDTO>(createdHemogram, HttpStatus.CREATED);

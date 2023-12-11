@@ -24,11 +24,13 @@ public class HemogramService implements IHemogramService {
      * TODO: Não permitir a inserção de hemogramas exatamente iguals (com exceção do próprio id)
      */
     @Override
-    public Hemogram addHemogramToUser(String login, Hemogram hemogram) {
+    public Hemogram addHemogramToUser(String patientLogin,String login, Hemogram hemogram) {
         User loggedUser = userRepository.findByLogin(login).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
-
+        User patientUser = userRepository.findByLogin((patientLogin)).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
+        
         hemogram.setId(null);
-        hemogram.setOwner(loggedUser);
+        hemogram.setOwner(patientUser);
+        hemogram.setProfessional(loggedUser);
         Hemogram savedHemogram = hemogramRepository.save(hemogram);
 
         return savedHemogram;

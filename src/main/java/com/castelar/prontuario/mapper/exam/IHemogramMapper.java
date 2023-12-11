@@ -12,6 +12,7 @@ public interface IHemogramMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "owner", ignore = true)
+    @Mapping(target = "professional", ignore = true)
     @Mapping(target = "erythogram.id", ignore = true)
     @Mapping(target = "thrombogram.id", ignore = true)
     @Mapping(target = "leukogram.id", ignore = true)

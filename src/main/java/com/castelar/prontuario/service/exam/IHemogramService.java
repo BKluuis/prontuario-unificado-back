@@ -8,12 +8,13 @@ import com.castelar.prontuario.model.exam.Hemogram;
 public interface IHemogramService {
     /**
      * Função preferida para a associação de um hemograma à um usuário e salvamento do mesmo no banco de dados
-     * @param login Login do usuário
+     * @param patientLogin Login do paciente ao qual o hemograma será associado
+     * @param ProfessionalLogin Login do profissional que cadastrou o hemograma
      * @param hemogram Hemograma a ser salvo, sem ID 
      * @return Hemograma salvo no Banco de dados
      * @throws AppException Caso não encontrar um usuário com o login fornecido
      */
-    public Hemogram addHemogramToUser(String login, Hemogram hemogram) throws AppException;
+    public Hemogram addHemogramToUser(String patientLogin,String ProfessionalLogin, Hemogram hemogram) throws AppException;
 
     public void update(Hemogram hemogram, Long hemogramID);
 
@@ -24,7 +25,7 @@ public interface IHemogramService {
     /**
      * Função preferida para a procura de hemogramas
      * @param login Login do usuário atualmente conectado
-     * @param id Id do hemograma 
+     * @param hemogramID Id do hemograma
      * @return Hemograma associado com este usuário
      * @throws AppException Caso não encontrar um usuário com o login fornecido ou não encontrar um hemograma associado ao usuário
      */

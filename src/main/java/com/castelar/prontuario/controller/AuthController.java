@@ -1,12 +1,11 @@
 package com.castelar.prontuario.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import com.castelar.prontuario.config.UserAuthProvider;
 import com.castelar.prontuario.dto.authentication.CredentialDTO;
@@ -52,5 +51,12 @@ public class AuthController {
         updatedUser.setToken(userAuthProvider.generateToken(updatedUser));
 
         return ResponseEntity.created(URI.create("/users/" + updatedUser.getId())).body(userMapper.toDTO(updatedUser));
+    }
+
+    @GetMapping("/get-users")
+    public ResponseEntity<List<UserDTO>> getUsers(@AuthenticationPrincipal User user){
+        List<User> users = userService.getUsers();
+        //users.forEach();
+        return null;
     }
 }

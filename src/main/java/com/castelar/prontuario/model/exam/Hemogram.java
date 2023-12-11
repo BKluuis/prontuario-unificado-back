@@ -28,6 +28,10 @@ public class Hemogram {
     @JoinColumn(name = "user_id")
     private User owner;
 
+    @ManyToOne
+    @JoinColumn(name = "professional_id")
+    private User professional;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Erythogram erythogram;
     
