@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.castelar.prontuario.exception.AppException;
 import com.castelar.prontuario.model.exam.Hemogram;
 
+import java.util.List;
+
 public interface IHemogramService {
     /**
      * Função preferida para a associação de um hemograma à um usuário e salvamento do mesmo no banco de dados
@@ -30,4 +32,6 @@ public interface IHemogramService {
      * @throws AppException Caso não encontrar um usuário com o login fornecido ou não encontrar um hemograma associado ao usuário
      */
     public Hemogram findByIdAndUser(String login, Long hemogramID) throws AppException;
+
+    public List<Hemogram> findUserHemograms(String patientLogin) throws AppException;
 }

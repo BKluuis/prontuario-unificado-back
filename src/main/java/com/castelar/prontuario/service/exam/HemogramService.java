@@ -11,6 +11,8 @@ import com.castelar.prontuario.exception.AppException;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 /**
  * TODO: Uma conta profissional ou admin não deve ser dona de exames
  */
@@ -64,5 +66,19 @@ public class HemogramService implements IHemogramService {
                         .orElseThrow(() -> new AppException("The hemogram with the given ID doesn't exists or is not associated with this user", HttpStatus.NOT_FOUND));
 
         return foundHemogram;
+    }
+
+    @Override
+    public List<Hemogram> findUserHemograms(String patientLogin) throws AppException {
+        User patientUser = userRepository.findByLogin(patientLogin).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
+
+        try{
+            List<Hemogram> hemogramList = hemogramRepository.findAllByOwner(patientUser);
+            System.out.println("printando owners");
+            hemogramList.forEach(hemograma -> System.out.println(hemograma.getOwner()));
+            return hemogramList;
+        } catch(Exception e){
+            throw new AppException("Hemograms not found", HttpStatus.NOT_FOUND);
+        }
     }
 }

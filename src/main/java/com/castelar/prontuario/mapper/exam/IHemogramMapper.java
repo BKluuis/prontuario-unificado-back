@@ -6,9 +6,13 @@ import org.mapstruct.Mapping;
 import com.castelar.prontuario.dto.exam.HemogramDTO;
 import com.castelar.prontuario.model.exam.Hemogram;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface IHemogramMapper {    
     HemogramDTO toDTO(Hemogram hemogram);
+
+    List<HemogramDTO> toDTOS(List<Hemogram> hemograms);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "owner", ignore = true)

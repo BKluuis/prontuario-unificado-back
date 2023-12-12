@@ -38,10 +38,9 @@ public class Mocker implements CommandLineRunner {
         User admin = uService.register(admin_sign);
         User josh = uService.register(employee_sign);
 
-        uService.updatePermissions(admin.getLogin(), Role.ADMIN);
-        uService.updatePermissions(josh.getLogin(), Role.PROFESSIONAL);
+        uService.updatePermissions(admin.getLogin(), Role.PROFESSIONAL);
+        uService.updatePermissions(josh.getLogin(), Role.PATIENT);
 
-        hService.addHemogramToUser(josh.getLogin(), hem);
     }
     
 }

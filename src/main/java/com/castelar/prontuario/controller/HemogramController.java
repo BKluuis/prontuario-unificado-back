@@ -17,6 +17,8 @@ import com.castelar.prontuario.service.exam.IHemogramService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/hemogram")
 @RequiredArgsConstructor
@@ -44,5 +46,12 @@ public class HemogramController {
         HemogramDTO hemo = hemogramMapper.toDTO(hemogramService.findByIdAndUser(user.getLogin() , id));
 
         return new ResponseEntity<HemogramDTO>(hemo, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-hemograms")
+    public ResponseEntity<List<HemogramDTO>> getPatientHemograms(@RequestParam String patientLogin){
+        List<HemogramDTO> userHemograms = hemogramMapper.toDTOS(hemogramService.findUserHemograms(patientLogin));
+
+        return new ResponseEntity<List<HemogramDTO>>(userHemograms, HttpStatus.OK);
     }
 }

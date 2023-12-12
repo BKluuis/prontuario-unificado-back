@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.castelar.prontuario.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
@@ -28,6 +30,8 @@ public class WebConfig {
      * Permite o acesso sobre esta API para o frontend (vide prontuario-unificado-front de @IagoGMacedo)
      * @return Filtro CORS configurado
      */
+
+
     @Bean
     public CorsFilter corsFilter(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -35,7 +39,8 @@ public class WebConfig {
 
         //Builder da configuração do CORS
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200");
+        config.setAllowedOrigins(Arrays.asList("http://localhost:4200/"));
+        //config.addAllowedOrigin("*");
         config.setAllowedHeaders(Arrays.asList(
             HttpHeaders.ACCEPT,
             HttpHeaders.CONTENT_TYPE,
@@ -45,7 +50,8 @@ public class WebConfig {
             HttpMethod.GET.name(),
             HttpMethod.PUT.name(),
             HttpMethod.POST.name(),
-            HttpMethod.DELETE.name()
+            HttpMethod.DELETE.name(),
+            HttpMethod.OPTIONS.name()
         ));
         config.setMaxAge(3600L);
 
@@ -62,4 +68,5 @@ public class WebConfig {
     public UserDetailsService userDetailsService(){
         return username -> userRepository.findByLogin(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
+
 }
