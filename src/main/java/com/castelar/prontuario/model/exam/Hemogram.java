@@ -14,6 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +35,9 @@ public class Hemogram {
     @ManyToOne
     @JoinColumn(name = "professional_id")
     private User professional;
+
+    @Column(name = "date")
+    private LocalDateTime date;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Erythogram erythogram;

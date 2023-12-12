@@ -11,6 +11,8 @@ import com.castelar.prontuario.exception.AppException;
 
 import lombok.RequiredArgsConstructor;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -33,7 +35,12 @@ public class HemogramService implements IHemogramService {
         hemogram.setId(null);
         hemogram.setOwner(patientUser);
         hemogram.setProfessional(loggedUser);
+        hemogram.setDate(LocalDateTime.now());
         Hemogram savedHemogram = hemogramRepository.save(hemogram);
+        System.out.println("------printando hemograma (postHemogram-------)");
+        System.out.println("firstName_owner_post: "+savedHemogram.getOwner().getFirstName());
+        System.out.println("firstName_professional_post: "+savedHemogram.getProfessional().getFirstName());
+        System.out.println("-----------------------------)");
 
         return savedHemogram;
     }
@@ -74,8 +81,12 @@ public class HemogramService implements IHemogramService {
 
         try{
             List<Hemogram> hemogramList = hemogramRepository.findAllByOwner(patientUser);
-            System.out.println("printando owners");
-            hemogramList.forEach(hemograma -> System.out.println(hemograma.getOwner()));
+            System.out.println("------printando hemogramas (getHemograms-------)");
+            //System.out.println("firstName_owner_post: "+savedHemogram.getOwner().getFirstName());
+            //System.out.println("firstName_professional_post: "+savedHemogram.getProfessional().getFirstName());
+            hemogramList.forEach(hemograma -> System.out.println(hemograma.getOwner().getFirstName()));
+            System.out.println("-----------------------------)");
+
             return hemogramList;
         } catch(Exception e){
             throw new AppException("Hemograms not found", HttpStatus.NOT_FOUND);

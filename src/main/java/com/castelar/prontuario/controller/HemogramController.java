@@ -1,5 +1,7 @@
 package com.castelar.prontuario.controller;
 
+import com.castelar.prontuario.dto.exam.HemogramPatientProfessionalDTO;
+import com.castelar.prontuario.mapper.exam.IHemogramPatientProfessionalMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +27,7 @@ import java.util.List;
 public class HemogramController {
     private final IHemogramService hemogramService;
     private final IHemogramMapper hemogramMapper;
+    private final IHemogramPatientProfessionalMapper hemogramPatientProfessionalMapper;
 
     @PostMapping
     public ResponseEntity<HemogramDTO> postHemogram(@RequestParam String patientLogin,@RequestBody HemogramDTO hemogram, @AuthenticationPrincipal User user){
@@ -49,9 +52,9 @@ public class HemogramController {
     }
 
     @GetMapping("/get-hemograms")
-    public ResponseEntity<List<HemogramDTO>> getPatientHemograms(@RequestParam String patientLogin){
-        List<HemogramDTO> userHemograms = hemogramMapper.toDTOS(hemogramService.findUserHemograms(patientLogin));
+    public ResponseEntity<List<HemogramPatientProfessionalDTO>> getPatientHemograms(@RequestParam String patientLogin){
+        List<HemogramPatientProfessionalDTO> userHemograms = hemogramPatientProfessionalMapper.toDTOS(hemogramService.findUserHemograms(patientLogin));
 
-        return new ResponseEntity<List<HemogramDTO>>(userHemograms, HttpStatus.OK);
+        return new ResponseEntity<List<HemogramPatientProfessionalDTO>>(userHemograms, HttpStatus.OK);
     }
 }
