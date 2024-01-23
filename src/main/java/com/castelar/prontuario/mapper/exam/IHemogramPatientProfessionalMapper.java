@@ -1,6 +1,5 @@
 package com.castelar.prontuario.mapper.exam;
 
-import com.castelar.prontuario.dto.exam.HemogramDTO;
 import com.castelar.prontuario.dto.exam.HemogramPatientProfessionalDTO;
 import com.castelar.prontuario.model.exam.Hemogram;
 import org.mapstruct.Mapper;
@@ -14,11 +13,8 @@ public interface IHemogramPatientProfessionalMapper {
     @Mapping(source = "professional.firstName", target = "professionalName")
     HemogramPatientProfessionalDTO toDTO(Hemogram hemogram);
 
-
     @Mapping(source = "owner.firstName", target = "patientName")
     @Mapping(source = "professional.firstName", target = "professionalName")
     @Mapping(source = "date", target = "date")
     List<HemogramPatientProfessionalDTO> toDTOS(List<Hemogram> hemograms);
-
-
 }

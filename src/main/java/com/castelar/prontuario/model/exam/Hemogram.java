@@ -14,8 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -47,4 +45,7 @@ public class Hemogram {
     
     @OneToOne(cascade = CascadeType.ALL)
     private Thrombogram thrombogram;
+
+    @Column(length = 512, name = "hemogram_comment")
+    private String comment = "";
 }

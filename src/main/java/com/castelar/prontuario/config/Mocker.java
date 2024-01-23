@@ -1,5 +1,7 @@
 package com.castelar.prontuario.config;
 
+import java.util.Random;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -27,20 +29,74 @@ public class Mocker implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ErythogramDTO er = new ErythogramDTO(1, 2, 3, 4, 5, 6, 7);
-        LeukogramDTO lek = new LeukogramDTO(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);
-        ThrombogramDTO tho = new ThrombogramDTO(19, 20, 21, 22);
-        Hemogram hem = hMapper.fromDTO(new HemogramDTO(er, lek, tho));
-        
-        SignUpDTO admin_sign = new SignUpDTO("", "", "admin", "123".toCharArray());
-        SignUpDTO employee_sign = new SignUpDTO("Josh", "Cabrero", "employee", "123".toCharArray());
+        SignUpDTO admin_sign = new SignUpDTO("adm", "castelar", "admin", "123".toCharArray());
+        SignUpDTO pat1_sign = new SignUpDTO("Josh", "Cabrero", "josh_cabrero", "pat1".toCharArray());
+        SignUpDTO pat2_sign = new SignUpDTO("Carla", "Pereira", "carla_pereira", "pat2".toCharArray());
+        SignUpDTO prof1_sign = new SignUpDTO("Alice", "Silva", "alice_silva", "Pa$$w0rd1".toCharArray());
+        SignUpDTO prof2_sign = new SignUpDTO("Bruno", "Oliveira", "bruno_oliveira", "Secr3tP@ss".toCharArray());
 
-        User admin = uService.register(admin_sign);
-        User josh = uService.register(employee_sign);
 
-        uService.updatePermissions(admin.getLogin(), Role.PROFESSIONAL);
-        uService.updatePermissions(josh.getLogin(), Role.PATIENT);
+        User admin_user = uService.register(admin_sign);
+        User pat1_user = uService.register(pat1_sign);
+        User pat2_user = uService.register(pat2_sign);
+        User prof1_user = uService.register(prof1_sign);
+        User prof2_user = uService.register(prof2_sign);
 
+        uService.updatePermissions(admin_user.getLogin(), Role.ADMIN);
+        uService.updatePermissions(pat1_user.getLogin(), Role.PATIENT);
+        uService.updatePermissions(pat2_user.getLogin(), Role.PATIENT);
+        uService.updatePermissions(prof1_user.getLogin(), Role.PROFESSIONAL);
+        uService.updatePermissions(prof2_user.getLogin(), Role.PROFESSIONAL);
+
+        Hemogram hem1 = generateHemogram();
+        Hemogram hem2 = generateHemogram();
+        Hemogram hem3 = generateHemogram();
+        Hemogram hem4 = generateHemogram();
+
+        hService.addHemogramToUser(pat1_user.getLogin(), prof1_user.getLogin(), hem1);
+        hService.addHemogramToUser(pat1_user.getLogin(), prof2_user.getLogin(), hem2);
+        hService.addHemogramToUser(pat2_user.getLogin(), prof1_user.getLogin(), hem3);
+        hService.addHemogramToUser(pat2_user.getLogin(), prof2_user.getLogin(), hem4);
     }
+ 
     
+    private Integer generateRandomNumber(int min, int max) {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
+    }
+
+    private Hemogram generateHemogram(){
+        ErythogramDTO er = new ErythogramDTO(
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200)
+        );
+        
+        LeukogramDTO lek = new LeukogramDTO(
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200)
+        );
+        
+        ThrombogramDTO tho = new ThrombogramDTO(
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200),
+            generateRandomNumber(1, 200)
+        );
+
+        return hMapper.fromDTO(new HemogramDTO(er, lek, tho, "Example comment"));
+    }
 }

@@ -78,8 +78,9 @@ public class UserService {
     public User getLoggedUser(){
         return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+    
     public List<User> getUsers(){
-    List<User> users = userRepository.findAll();
-    return users;
+        List<User> users = userRepository.findAll();
+        return users;
     }
 }

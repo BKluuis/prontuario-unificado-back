@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-// @Embeddable
 public class Leukogram {
     @Id
     @GeneratedValue

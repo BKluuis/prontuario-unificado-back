@@ -11,13 +11,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.castelar.prontuario.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
@@ -40,7 +38,6 @@ public class WebConfig {
         //Builder da configuração do CORS
         config.setAllowCredentials(true);
         config.setAllowedOrigins(Arrays.asList("http://localhost:4200/"));
-        //config.addAllowedOrigin("*");
         config.setAllowedHeaders(Arrays.asList(
             HttpHeaders.ACCEPT,
             HttpHeaders.CONTENT_TYPE,

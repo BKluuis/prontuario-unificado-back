@@ -18,14 +18,21 @@ public interface IHemogramService {
      */
     public Hemogram addHemogramToUser(String patientLogin,String ProfessionalLogin, Hemogram hemogram) throws AppException;
 
-    public void update(Hemogram hemogram, Long hemogramID);
+    /**
+     * Atualiza o campo de observação do hemograma e garante que não têm mais de 512 caracteres
+     * @param login Login do profissional responsável pelo hemograma
+     * @param newComment Novo comentário 
+     * @param hemogramId Id do hemograma 
+     * @return Hemograma salvo
+     */
+    public Hemogram updateComment(String login, String newComment, Long hemogramId);
 
     public void delete(Long id);
     
     public Hemogram findById(Long hemogramID);
 
     /**
-     * Função preferida para a procura de hemogramas
+     * Procura o hemograma que contém o usuário fornecido, tanto como dono do hemograma quando como profissional responsável
      * @param login Login do usuário atualmente conectado
      * @param hemogramID Id do hemograma
      * @return Hemograma associado com este usuário

@@ -2,6 +2,7 @@ package com.castelar.prontuario.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -50,7 +51,9 @@ public class SecurityConfig {
             .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/login"), mvc.pattern("/register"), new AntPathRequestMatcher("/h2-console/**")) //OBS: o h2 tem que ser através do antmatcher
             .permitAll()
-            .requestMatchers(mvc.pattern("api/hemogram**")).hasRole(Role.PROFESSIONAL.name())
+            .requestMatchers(mvc.pattern(HttpMethod.GET, "api/hemogram**")).hasAnyRole(Role.PATIENT.name(), Role.PROFESSIONAL.name())
+            .requestMatchers(mvc.pattern(HttpMethod.POST, "api/hemogram**")).hasRole(Role.PROFESSIONAL.name())
+            .requestMatchers(mvc.pattern("/update-user**")).hasRole(Role.ADMIN.name())
             .anyRequest().authenticated()
         );
         return http.build();
