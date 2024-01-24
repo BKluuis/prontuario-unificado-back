@@ -27,7 +27,7 @@ public class AuthController {
     private final IUserMapper userMapper;
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody CredentialDTO credentialDTO){
+    public ResponseEntity<UserDTO> login(@RequestBody CredentialDTO credentialDTO) {
         User user = userService.login(credentialDTO);
 
         user.setToken(userAuthProvider.generateToken(user));
@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody SignUpDTO signUpDTO){
+    public ResponseEntity<UserDTO> register(@RequestBody SignUpDTO signUpDTO) {
         User user = userService.register(signUpDTO);
 
         user.setToken(userAuthProvider.generateToken(user));
@@ -44,8 +44,8 @@ public class AuthController {
         return ResponseEntity.created(URI.create("/users/" + user.getId())).body(userMapper.toDTO(user));
     }
 
-     @PostMapping("/update-user")
-    public ResponseEntity<UserDTO> update(@RequestParam String login, @RequestParam Role role){
+    @PostMapping("/update-user")
+    public ResponseEntity<UserDTO> update(@RequestParam String login, @RequestParam Role role) {
         User updatedUser = userService.updatePermissions(login, role);
 
         updatedUser.setToken(userAuthProvider.generateToken(updatedUser));
@@ -53,10 +53,11 @@ public class AuthController {
         return ResponseEntity.created(URI.create("/users/" + updatedUser.getId())).body(userMapper.toDTO(updatedUser));
     }
 
+    /* TODO: Retornar páginas em vez de uma lista */
     @GetMapping("/get-users")
-    public ResponseEntity<List<UserDTO>> getUsers(@AuthenticationPrincipal User user){
+    public ResponseEntity<List<UserDTO>> getUsers(@AuthenticationPrincipal User user) {
         List<User> users = userService.getUsers();
-        //users.forEach();
+        // users.forEach();
         return null;
     }
 }

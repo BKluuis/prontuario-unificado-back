@@ -28,28 +28,34 @@ public class UserService {
     private final IUserMapper userMapper;
 
     /**
-     * Realiza o login do usuário, pesquisa no banco de dados se o login fornecido existe, se existe compara as senhas
+     * Realiza o login do usuário, pesquisa no banco de dados se o login fornecido
+     * existe, se existe compara as senhas
+     * 
      * @param credentialDTO Credenciais contendo login e senha
      * @return User do usuário encontrado
      */
-    public User login(CredentialDTO credentialDTO) throws AppException{
-        User user = userRepository.findByLogin(credentialDTO.login()).orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
-        
-        if(passwordEncoder.matches(CharBuffer.wrap(credentialDTO.password()), user.getPassword())){
+    public User login(CredentialDTO credentialDTO) throws AppException {
+        User user = userRepository.findByLogin(credentialDTO.login())
+                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+
+        if (passwordEncoder.matches(CharBuffer.wrap(credentialDTO.password()), user.getPassword())) {
             return user;
         }
         throw new AppException("Unknown user", HttpStatus.BAD_REQUEST);
     }
 
     /**
-     * Realiza o cadastro do usuário, caso o login fornecido já não exista, salva um novo usuário com permissões de PATIENT
-     * @param signUpDTO Informações de cadastro necessárias para criar um novo usuário
+     * Realiza o cadastro do usuário, caso o login fornecido já não exista, salva um
+     * novo usuário com permissões de PATIENT
+     * 
+     * @param signUpDTO Informações de cadastro necessárias para criar um novo
+     *                  usuário
      * @return User do usuário criado
      */
-    public User register(SignUpDTO signUpDTO) throws AppException{
+    public User register(SignUpDTO signUpDTO) throws AppException {
         Optional<User> oUser = userRepository.findByLogin(signUpDTO.login());
 
-        if(oUser.isPresent()){
+        if (oUser.isPresent()) {
             throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
         }
 
@@ -62,24 +68,28 @@ public class UserService {
     }
 
     /**
-     * TODO: Forçar logout no usuário, o objeto Authentication no SecurityContextHolder não é atualizado após a atualização do usuário
+     * TODO: Forçar logout no usuário, o objeto Authentication no
+     * SecurityContextHolder não é atualizado após a atualização do usuário
+     * 
      * @param login
      * @param newRole
-     * @return 
+     * @return
      */
-    public User updatePermissions(String login, Role newRole){
-        User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public User updatePermissions(String login, Role newRole) {
+        User user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         user.setRole(newRole);
         User savedUser = userRepository.save(user);
 
         return savedUser;
     }
 
-    public User getLoggedUser(){
-        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public User getLoggedUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-    
-    public List<User> getUsers(){
+
+    /* TODO: Retornar páginas em vez de uma lista */
+    public List<User> getUsers() {
         List<User> users = userRepository.findAll();
         return users;
     }

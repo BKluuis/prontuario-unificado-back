@@ -12,7 +12,7 @@
 	<artifactId>prontuario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>prontuario</name>
-	<description>Projeto de prontuário unificado</description>
+	<description>Projeto de prontuario unificado</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
-			<version>4.4.0</version>
+			<version>4.3.0</version>
 		</dependency>
 	</dependencies>
 

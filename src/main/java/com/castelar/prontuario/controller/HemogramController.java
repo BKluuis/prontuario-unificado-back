@@ -30,44 +30,48 @@ public class HemogramController {
     private final IHemogramPatientProfessionalMapper hemogramPatientProfessionalMapper;
 
     @PostMapping
-    public ResponseEntity<HemogramDTO> postHemogram(@RequestParam String patientLogin, @RequestBody HemogramDTO hemogram, @AuthenticationPrincipal User user){
+    public ResponseEntity<HemogramDTO> postHemogram(@RequestParam String patientLogin,
+            @RequestBody HemogramDTO hemogram, @AuthenticationPrincipal User user) {
         System.out.println("Este usuário requisitou a inclusão de um hemograma " + user);
 
         HemogramDTO createdHemogram = hemogramMapper.toDTO(
-                                        hemogramService.addHemogramToUser(patientLogin, user.getLogin() ,hemogramMapper.fromDTO(hemogram)));
+                hemogramService.addHemogramToUser(patientLogin, user.getLogin(), hemogramMapper.fromDTO(hemogram)));
 
         return new ResponseEntity<HemogramDTO>(createdHemogram, HttpStatus.CREATED);
     }
 
     @PostMapping("update-comment")
-    public ResponseEntity<HemogramDTO> updateComment(@RequestParam Long id, @RequestBody String newComment, @AuthenticationPrincipal User user) {
+    public ResponseEntity<HemogramDTO> updateComment(@RequestParam Long id, @RequestBody String newComment,
+            @AuthenticationPrincipal User user) {
         System.out.println("Este usuário requisitou a atualização de um comentário de um hemograma " + user);
-        
+
         HemogramDTO updatedHemogram = hemogramMapper.toDTO(
-          hemogramService.updateComment(user.getLogin(), newComment, id)  
-        );
+                hemogramService.updateComment(user.getLogin(), newComment, id));
 
         return new ResponseEntity<HemogramDTO>(updatedHemogram, HttpStatus.OK);
     }
-    
 
     /**
-     * Apenas o usuário dono do hemograma ou um profissional com ligação ao usuário pode requisitar um hemograma
+     * Apenas o usuário dono do hemograma ou um profissional com ligação ao usuário
+     * pode requisitar um hemograma
+     * 
      * @return
      */
     @GetMapping
-    public ResponseEntity<HemogramDTO> getHemogram(@RequestParam Long id, @AuthenticationPrincipal User user){
+    public ResponseEntity<HemogramDTO> getHemogram(@RequestParam Long id, @AuthenticationPrincipal User user) {
         System.out.println("Este usuário requisitou um hemograma " + user);
 
-        HemogramDTO hemo = hemogramMapper.toDTO(hemogramService.findByIdAndUser(user.getLogin() , id));
+        HemogramDTO hemo = hemogramMapper.toDTO(hemogramService.findByIdAndUser(user.getLogin(), id));
 
         return new ResponseEntity<HemogramDTO>(hemo, HttpStatus.OK);
     }
 
     /* TODO: Renomear para "/all" */
+    /* TODO: Retornar páginas em vez de uma lista */
     @GetMapping("/get-hemograms")
-    public ResponseEntity<List<HemogramPatientProfessionalDTO>> getPatientHemograms(@RequestParam String patientLogin){
-        List<HemogramPatientProfessionalDTO> userHemograms = hemogramPatientProfessionalMapper.toDTOS(hemogramService.findUserHemograms(patientLogin));
+    public ResponseEntity<List<HemogramPatientProfessionalDTO>> getPatientHemograms(@RequestParam String patientLogin) {
+        List<HemogramPatientProfessionalDTO> userHemograms = hemogramPatientProfessionalMapper
+                .toDTOS(hemogramService.findUserHemograms(patientLogin));
 
         return new ResponseEntity<List<HemogramPatientProfessionalDTO>>(userHemograms, HttpStatus.OK);
     }
