@@ -28,9 +28,6 @@ public class SecurityConfig {
 
     /**
      * Bean necessário para realizar o request matching em MVC
-     * 
-     * @param introspector
-     * @return
      */
     @Bean
     public MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
@@ -50,7 +47,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
-                .csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
                 .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
                 .cors(Customizer.withDefaults())
                 .addFilterBefore(new JwtFilter(userAuthProvider), BasicAuthenticationFilter.class) // Adiciona o filtro
@@ -62,7 +58,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(mvc.pattern("/login"), mvc.pattern("/register"),
                                 new AntPathRequestMatcher("/h2-console/**")) // OBS: o h2 tem que ser através do
-                                                                             // antmatcher
+                                                                                     // antmatcher
                         .permitAll()
                         .requestMatchers(mvc.pattern(HttpMethod.GET, "api/hemogram**"))
                         .hasAnyRole(Role.PATIENT.name(), Role.PROFESSIONAL.name())
